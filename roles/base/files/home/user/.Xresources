@@ -1,2 +1,24 @@
 Xft.dpi: 256
 Xcursor.size: 64
+URxvt.font: xft:Monospace:size=10
+
+! settings as chosen by chatgpt
+svkbd.font: Inconsolata:size=8
+svkbd.background: #ffffff
+svkbd.foreground: #000000
+svkbd.shiftforeground: #000000
+svkbd.shiftbackground: #cccccc
+svkbd.ABCforeground: #000000
+svkbd.ABCbackground: #ffffff
+svkbd.ABCshiftforeground: #000000
+svkbd.ABCshiftbackground: #cccccc
+svkbd.pressforeground: #000000
+svkbd.pressbackground: #aaaaaa
+svkbd.highlightforeground: #000000
+svkbd.highlightbackground: #bbbbbb
+svkbd.highlightshiftforeground: #000000
+svkbd.highlightshiftbackground: #aaaaaa
+svkbd.overlayforeground: #000000
+svkbd.overlaybackground: #999999
+svkbd.overlayshiftforeground: #000000
+svkbd.overlayshiftbackground: #888888

@@ -16,6 +16,7 @@
       # other dependencies
       - dbus-x11
       - rsync
+      - rxvt-unicode
     optional_packages:
       - foliate
       - castor
@@ -51,6 +52,11 @@
   with_items:
     - etc/sudoers.d/power-rfkill
 
+# set the default desktop environment to awesome via tinydm
+- name: Set default desktop environment
+  become: true
+  command: tinydm-set-session -f -s /usr/share/xsessions/awesome.desktop
+
 - name: Copy user configuration
   copy:
     src: "home/user/{{ item }}"
@@ -60,7 +66,8 @@
     - .Xresources
     - .config/gtk-3.0/settings.ini
 
-# set the default desktop environment to awesome via tinydm
-- name: Set default desktop environment
-  become: true
-  command: tinydm-set-session -f -s /usr/share/xsessions/awesome.desktop
+# reload xresources
+- name: Reload Xresources
+  shell: xrdb -merge ~/.Xresources
+  environment:
+    DISPLAY: ":0"
