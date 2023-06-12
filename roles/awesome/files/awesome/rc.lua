@@ -112,9 +112,9 @@ powerbutton:connect_signal("button::press", function()
 end)
 
 batterystatus = awful.widget.watch(
-  "bash -c \"upower -i /org/freedesktop/UPower/devices/battery_rn5t618_battery | grep -E 'state|percent' | awk '{print $2}' | tac | tr '\n' ' '\"",
-  30
+  gears.filesystem.get_configuration_dir() .. "scripts/battery.sh", 30
 )
+
 pop = awful.popup({
   widget = {
     {
@@ -276,7 +276,7 @@ mysystemmenu = {
 }
 mymainmenu = awful.menu({
   items = {
-    { "Books", gears.filesystem.get_configuration_dir() .. "koreader.sh" },
+    { "Books", gears.filesystem.get_configuration_dir() .. "scripts/koreader.sh" },
     { "WWW", "firefox" },
     { "Gopher", "castor" },
     { "Terminal", terminal },
@@ -456,7 +456,7 @@ root.buttons(gears.table.join(
 -- {{{ Key bindings
 globalkeys = gears.table.join(
   awful.key({}, "XF86PowerOff", function()
-    awful.util.spawn(gears.filesystem.get_configuration_dir() .. "suspend.sh")
+    awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/suspend.sh")
   end),
   awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
   awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
@@ -788,7 +788,7 @@ awful.spawn("killall nm-applet")
 awful.spawn.once("nm-applet")
 awful.spawn.once("xrandr --output None-1 --rotate left")
 awful.spawn.once("svkbd-mobile-intl")
-awful.spawn.once(gears.filesystem.get_configuration_dir() .. "gestures.sh")
+awful.spawn.once(gears.filesystem.get_configuration_dir() .. "scripts/gestures.sh")
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
