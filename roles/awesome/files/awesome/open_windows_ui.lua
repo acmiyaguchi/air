@@ -1,6 +1,7 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
+local beautiful = require("beautiful")
 
 -- Define our OpenWindows object
 OpenWindows = {}
@@ -14,12 +15,10 @@ function OpenWindows.new()
     })
     self.popup = awful.popup {
         widget = self.widget,
-        border_color = "#00ff00",
         border_width = 5,
-        width = 500,
+        width = 300,
         placement = awful.placement.centered,
         shape = gears.shape.rounded_rect,
-
         visible = false,
         ontop = true
     }
@@ -53,9 +52,10 @@ function OpenWindows:get_open_windows()
                         widget = wibox.widget.textbox,
                         text = 'Kill',
                     },
+                    bg = beautiful.bg_focus,
+                    clip = true,
                     shape = gears.shape.rounded_bar,
                     widget = wibox.container.background,
-                    bg = '#ff0000',
                     buttons = gears.table.join(
                         awful.button({}, 1, function()
                             c:kill()

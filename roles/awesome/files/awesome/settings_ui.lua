@@ -11,13 +11,10 @@ coldslider = wibox.widget({
     minimum = 0,
     maximum = 255,
     value = 150,
-    handle_color = beautiful.bg_normal,
     handle_shape = gears.shape.circle,
-    handle_border_color = beautiful.border_color,
     handle_border_width = 1,
     bar_shape = gears.shape.rounded_rect,
     bar_height = 3,
-    bar_color = beautiful.border_color,
     forced_height = 50,
     forced_width = 200,
     widget = wibox.widget.slider
@@ -32,13 +29,10 @@ warmslider = wibox.widget({
     minimum = 0,
     maximum = 255,
     value = 150,
-    handle_color = beautiful.bg_normal,
     handle_shape = gears.shape.circle,
-    handle_border_color = beautiful.border_color,
     handle_border_width = 1,
     bar_shape = gears.shape.rounded_rect,
     bar_height = 3,
-    bar_color = beautiful.border_color,
     forced_height = 50,
     forced_width = 200,
     widget = wibox.widget.slider
@@ -99,15 +93,14 @@ pop = awful.popup({
                 {text = "WiFi", widget = wibox.widget.textbox},
                 {
                     wifitoggle,
-
-                    bg = "#ff00ff",
+                    bg = beautiful.bg_focus,
                     clip = true,
                     shape = gears.shape.rounded_bar,
                     widget = wibox.widget.background
                 },
                 {
                     powerbutton,
-                    bg = "#ff00ff",
+                    bg = beautiful.bg_focus,
                     clip = true,
                     shape = gears.shape.rounded_bar,
                     widget = wibox.widget.background
@@ -115,7 +108,7 @@ pop = awful.popup({
 
                 {
                     sleepbutton,
-                    bg = "#ff00ff",
+                    bg = beautiful.bg_focus,
                     clip = true,
                     shape = gears.shape.rounded_bar,
                     widget = wibox.widget.background
@@ -137,7 +130,6 @@ pop = awful.popup({
         height = 400,
         widget = wibox.container.margin
     },
-    border_color = "#00ff00",
     border_width = 5,
     width = 300,
     placement = awful.placement.centered,
