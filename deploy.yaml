@@ -1,0 +1,7 @@
+- name: deployment playbook
+  hosts: kobo_clara
+  roles:
+    - name: base
+      tags: base
+    - name: awesome
+      tags: awesome

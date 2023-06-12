@@ -1,0 +1,16 @@
+- name: Copy configuration directory
+  ansible.posix.synchronize:
+    src: awesome
+    dest: "{{ ansible_env.HOME }}/.config"
+    delete: true
+    recursive: true
+
+- name: Restart awesome
+  shell: awesome-client 'awesome.restart()'
+  environment:
+    DISPLAY: ":0"
+  # NOTE: ignore_errors is needed because of the following error:
+  #
+  # Error org.freedesktop.DBus.Error.NoReply: Message recipient disconnected
+  # from message bus without replying
+  ignore_errors: true

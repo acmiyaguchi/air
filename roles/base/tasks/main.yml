@@ -1,0 +1,66 @@
+# create a variable with a list of packages to install
+- name: packages to install
+  set_fact:
+    required_packages:
+      - awesome
+      - util-linux-misc
+      - svkbd
+      - lisgd
+      - network-manager-applet
+      - pm-utils
+      - brightnessctl
+      - upower
+      - adwaita-icon-theme
+      - font-inter
+      - xrandr
+      # other dependencies
+      - dbus-x11
+      - rsync
+    optional_packages:
+      - foliate
+      - castor
+      - mobile-config-firefox
+      - sxmo-st
+
+- name: Install apk
+  apk:
+    # comma separated list of packages to install
+    name: "{{ required_packages | join(',') }}"
+    state: present
+
+- name: Install apk (optional)
+  apk:
+    name: "{{ optional_packages | join(',') }}"
+    state: present
+
+- name: Copy system files
+  become: true
+  copy:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
+    mode: "0644"
+  with_items:
+    - etc/X11/xorg.conf.d/rotate.conf
+
+- name: Copy system files (template)
+  become: true
+  template:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
+    mode: "0644"
+  with_items:
+    - etc/sudoers.d/power-rfkill
+
+- name: Copy user configuration
+  copy:
+    src: "home/user/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/{{ item }}"
+    mode: "0644"
+  with_items:
+    - .Xresources
+    - .config/gtk-3.0/settings.ini
+
+# set the default desktop environment to awesome via tinydm
+- name: Set default desktop environment
+  become: true
+  command: tinydm-set-session -f -s /usr/share/xsessions/awesome.desktop

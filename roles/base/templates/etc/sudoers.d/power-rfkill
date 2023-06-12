@@ -1,0 +1,6 @@
+{{ ansible_user_id }} ALL=NOPASSWD: /usr/sbin/rfkill
+{{ ansible_user_id }} ALL=NOPASSWD: /usr/sbin/pm-suspend
+{{ ansible_user_id }} ALL=NOPASSWD: /sbin/poweroff
+{{ ansible_user_id }} ALL=NOPASSWD: /usr/sbin/chroot
+{{ ansible_user_id }} ALL=NOPASSWD: /bin/mount
+{{ ansible_user_id }} ALL=NOPASSWD: /usr/bin/tee

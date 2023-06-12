@@ -87,6 +87,7 @@ wifitoggle = wibox.widget({
 })
 
 wifitoggle:connect_signal("button::press", function()
+  naughty.notify({ title = "wifi toggle", text = "changed" })
   awful.spawn("sudo rfkill toggle 0")
 end)
 

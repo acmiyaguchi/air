@@ -19,4 +19,3 @@ else
 	sleep 1
 	sudo pm-suspend
 fi
-

@@ -4,7 +4,7 @@
 
 AIR is a graphical interface for e-readers that heavily relies on AwesomeWM. It's tested on the Kobo Clara HD using PostmarketOS, but perhaps it can be used elsewhere. It is a work in progress.
 
-AIR was created because most Linux graphical interfaces don't work very well with e-ink tablet out of the box. They often require keyboard or mouse to configure things. Sometimes, unique features such as cold & warm brightness cannot be easily controls. Lastly, things like proper suspend and resume can require some [hacks](suspend.sh). AIR aims to make these things Just Work ™️. 
+AIR was created because most Linux graphical interfaces don't work very well with e-ink tablet out of the box. They often require keyboard or mouse to configure things. Sometimes, unique features such as cold & warm brightness cannot be easily controls. Lastly, things like proper suspend and resume can require some [hacks](suspend.sh). AIR aims to make these things Just Work ™️.
 
 ## Features
 
@@ -24,41 +24,18 @@ You can use any Linux application with it, for example:
 
 ## Setup
 
-AIR isn't nicely packed as it's actually just a collection of different tools, together with an AwesomeWM configuration. Setting up takes a couple of steps:
+AIR isn't nicely packed as it's actually just a collection of different tools, together with an AwesomeWM configuration.
 
-0. `cd ~/.config && git clone https://github.com/bjesus/air.git awesome`
+We can use ansible to deploy configuration.
+Run it without `--check` to make the actual configuration.
+This assumes that the user on the computer you're running the ansible playbook on is the same as the user on the ereader.
 
-1. Install all needed packages: `sudo apk add awesome util-linux-misc svkbd lisgd network-manager-applet pm-utils brightnessctl upower adwaita-icon-theme font-inter xrandr`
+```bash
+# run all the roles
+ansible-playbook -i inventory.ini deploy.yaml --ask-become-pass --check
 
-2. If you want, install the additional optional software: `sudo apk add foliate castor mobile-config-firefox sxmo-st`
-
-3. Place your background image at `~/.config/awesome/bg.jpg`
-
-4. Set your default desktop environment: `sudo tinydm-set-session -f -s /usr/share/xsessions/awesome.desktop`
-
-5. Allow password-less rfkill, suspend and poweroff by adding this to `/etc/sudoers`:
-```
-YOUR_USERNAME ALL=NOPASSWD: /usr/sbin/rfkill
-YOUR_USERNAME ALL=NOPASSWD: /usr/sbin/pm-suspend
-YOUR_USERNAME ALL=NOPASSWD: /sbin/poweroff
-YOUR_USERNAME ALL=NOPASSWD: /usr/sbin/chroot
-YOUR_USERNAME ALL=NOPASSWD: /bin/mount
-YOUR_USERNAME ALL=NOPASSWD: /usr/bin/tee
-```
-
-6. Set some font-size optimizations by copying `~/.config/awesome/.Xresources` to `~/.Xresources` and `~/.config/awesome/settings.ini` to `~/.config/gtk-3.0/settings.ini`
-
-7. `chmod +x ~/.config/awesome/suspend.sh`
-
-8. Rotate the touchscreen by create /etc/X11/xorg.conf.d/rotate.conf with this:
-```
-Section "InputClass"
-            Identifier "Coordinate Transformation Matrix"
-            MatchIsTouchscreen "on"
-            MatchDevicePath "/dev/input/event*"
-            MatchDriver "libinput"
-            Option "CalibrationMatrix" "0 -1 1 1 0 0 0 0 1"
-EndSection
+# just deploy the awesome configuration changes, and restart the awesome session
+ansible-playbook -i inventory.ini deploy.yaml --tags=awesome --check
 ```
 
 ### KOReader
@@ -68,12 +45,12 @@ The only way I managed to run KOReader is using a Debian chroot. Get the Debian 
 ```
 $ sudo apk add debootstrap xhost
 $ sudo debootstrap testing ~/debian http://http.debian.net/debian/
-$ cp koreader-2023.04-armhf.deb ~/chroot/root 
+$ cp koreader-2023.04-armhf.deb ~/chroot/root
 $ mkdir -p ~/chroot/tmp/.X11-unix
 $ sudo chroot ~/chroot /bin/bash
 
 # inside the chroot:
-$ apt update && apt install libsdl2-2.0-0 fonts-noto-hinted fonts-droid-fallback 
+$ apt update && apt install libsdl2-2.0-0 fonts-noto-hinted fonts-droid-fallback
 $ sudo dpkg -i /root/koreader-2023.04-armhf.deb
 ```
 
@@ -96,3 +73,43 @@ AIR uses lisgd for gestures. By default the following gestures are set:
 - Battery status reporting could be off
 - GTK header buttons are tiny. Can be fixed by setting `GDK_SCALE` but for me it crashes Foliate.
 
+## Appendix
+
+### Old setup
+
+0. `cd ~/.config && git clone https://github.com/bjesus/air.git awesome`
+
+1. Install all needed packages: `sudo apk add awesome util-linux-misc svkbd lisgd network-manager-applet pm-utils brightnessctl upower adwaita-icon-theme font-inter xrandr`
+
+2. If you want, install the additional optional software: `sudo apk add foliate castor mobile-config-firefox sxmo-st`
+
+3. Place your background image at `~/.config/awesome/bg.jpg`
+
+4. Set your default desktop environment: `sudo tinydm-set-session -f -s /usr/share/xsessions/awesome.desktop`
+
+5. Allow password-less rfkill, suspend and poweroff by adding this to `/etc/sudoers`:
+
+```
+YOUR_USERNAME ALL=NOPASSWD: /usr/sbin/rfkill
+YOUR_USERNAME ALL=NOPASSWD: /usr/sbin/pm-suspend
+YOUR_USERNAME ALL=NOPASSWD: /sbin/poweroff
+YOUR_USERNAME ALL=NOPASSWD: /usr/sbin/chroot
+YOUR_USERNAME ALL=NOPASSWD: /bin/mount
+YOUR_USERNAME ALL=NOPASSWD: /usr/bin/tee
+```
+
+6. Set some font-size optimizations by copying `~/.config/awesome/.Xresources` to `~/.Xresources` and `~/.config/awesome/settings.ini` to `~/.config/gtk-3.0/settings.ini`
+
+7. `chmod +x ~/.config/awesome/suspend.sh`
+
+8. Rotate the touchscreen by create /etc/X11/xorg.conf.d/rotate.conf with this:
+
+```
+Section "InputClass"
+            Identifier "Coordinate Transformation Matrix"
+            MatchIsTouchscreen "on"
+            MatchDevicePath "/dev/input/event*"
+            MatchDriver "libinput"
+            Option "CalibrationMatrix" "0 -1 1 1 0 0 0 0 1"
+EndSection
+```
