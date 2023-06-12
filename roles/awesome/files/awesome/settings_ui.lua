@@ -155,6 +155,10 @@ poptoggler:connect_signal("button::press", function(c, _, _, button)
     pop.visible = not pop.visible
 end)
 
+awesome.connect_signal("settings:toggle", function()
+    pop.visible = not pop.visible
+end)
+
 settings_ui.pop = pop
 settings_ui.poptoggler = poptoggler
 

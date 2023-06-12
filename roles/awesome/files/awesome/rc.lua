@@ -19,6 +19,16 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 local setttings_ui = require("settings_ui")
+local open_windows_ui = require("open_windows_ui")
+
+-- create the widget and reload when a window is created or destroyed
+open_windows_widget = open_windows_ui.new()
+client.connect_signal("manage", function(c)
+  open_windows_widget:update_widget()
+end)
+client.connect_signal("unmanage", function(c)
+  open_windows_widget:update_widget()
+end)
 
 -- my signals
 
