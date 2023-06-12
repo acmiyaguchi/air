@@ -3,7 +3,7 @@ Xcursor.size: 64
 URxvt.font: xft:Monospace:size=10
 
 ! settings as chosen by chatgpt
-svkbd.font: Inconsolata:size=8
+svkbd.font: DejaVu Sans:size=8
 svkbd.background: #ffffff
 svkbd.foreground: #000000
 svkbd.shiftforeground: #000000
