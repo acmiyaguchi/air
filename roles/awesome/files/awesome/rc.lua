@@ -71,7 +71,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_configuration_dir() .. "kobo/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "st"
@@ -141,7 +141,7 @@ mymainmenu = awful.menu({
 mylauncher = awful.widget.launcher({ image = "/usr/share/icons/Adwaita/symbolic/actions/go-up-symbolic.svg", menu = mymainmenu })
 
 kbdtoggler = awful.widget.button({
-  image = gears.filesystem.get_configuration_dir() .. "keyboard.svg",
+  image = gears.filesystem.get_configuration_dir() .. "assets/keyboard.svg",
   buttons = {
     awful.button({}, 1, nil, function() end),
   },
@@ -215,6 +215,9 @@ local function set_wallpaper(s)
       wallpaper = wallpaper(s)
     end
     gears.wallpaper.maximized(wallpaper, s, true)
+  else
+    -- solid white background
+    gears.wallpaper.set("#ffffff")
   end
 end
 
